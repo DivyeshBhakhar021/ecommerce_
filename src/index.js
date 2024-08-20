@@ -16,26 +16,26 @@ const cors = require('cors');
 const app = express();
 // const swaggerDocument = YAML.load('./src/api.yaml')
 
-googleProvuder();
-facebookProvider();
+// googleProvuder();
+// facebookProvider();
 
-const _dirname = path.resolve();
+// const _dirname = path.resolve();
 
-const __swaggerDistPath = path.join(_dirname, 'node_modules', 'swagger-ui-dist'); //install swagger-ui-dist
+// const __swaggerDistPath = path.join(_dirname, 'node_modules', 'swagger-ui-dist'); //install swagger-ui-dist
 
-const swaggerDocument = YAML.load(path.resolve('./public', 'api.yaml'));
+// const swaggerDocument = YAML.load(path.resolve('./public', 'api.yaml'));
 
 
-app.use(
-  '/api/docs',
-  express.static(__swaggerDistPath, { index: false }), // Serve Swagger UI assets
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerDocument, {
-    swaggerOptions: {
-      url: '/public/api.yaml' // Path to your YAML file
-    }
-  })
-);
+// app.use(
+//   '/api/docs',
+//   express.static(__swaggerDistPath, { index: false }), // Serve Swagger UI assets
+//   swaggerUi.serve,
+//   swaggerUi.setup(swaggerDocument, {
+//     swaggerOptions: {
+//       url: '/public/api.yaml' // Path to your YAML file
+//     }
+//   })
+// );
 
 // // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 connectDB();
@@ -45,9 +45,9 @@ app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true
 }))
-app.use(require('express-session')({ secret: 'aaa$12', resave: true, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(require('express-session')({ secret: 'aaa$12', resave: true, saveUninitialized: true }));
+// app.use(passport.initialize());
+// app.use(passport.session());
 app.use(express.json());
 
 app.use('/',(req,res)=>{
@@ -56,7 +56,7 @@ app.use('/',(req,res)=>{
 
 app.use("/api/v1", routes);
 
-app.use(cookieParser())
+// app.use(cookieParser())
 // pdfmake();
 
 
