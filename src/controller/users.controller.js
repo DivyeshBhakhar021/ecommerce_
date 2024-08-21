@@ -150,7 +150,7 @@ const generateNewToken = async (req, res) => {
     try {
       const checkToken = jwt.verify(req.cookies.refretoken, "Qwerty12345");
   
-      console.log(checkToken);
+      // console.log(checkToken);
   
       if (!checkToken) {
         return res.status(400).json({
