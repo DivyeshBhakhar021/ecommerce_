@@ -6,7 +6,7 @@ const auth = (roles = []) => async (req, res, next) => {
 
     try {
 
-        const token = req.cookies.accrestoken || req.header('Authorization')?.replace("Bearer ", "")
+        const token = req.cookies?.accrestoken || req.header('Authorization')?.replace("Bearer ", "")
         // console.log("token",token);
         // console.log("mmmmmmmmmmm", roles);
 

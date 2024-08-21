@@ -41,14 +41,15 @@ app.use(
 connectDB();
 // // connectChat()
 
-// app.use(cors({   
-//     origin: 'http://localhost:3000',
-//     credentials: true
-// }))
+app.use(cors({   
+    origin: 'http://localhost:3000',
+    credentials: true
+}))
 app.use(require('express-session')({ secret: 'aaa$12', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
+app.use(cookieParser())
 app.use("/api/v1", routes);
 
 app.use('/',(req,res)=>{
@@ -57,10 +58,8 @@ app.use('/',(req,res)=>{
 
 
 
-app.use(cookieParser())
+
 // pdfmake();
-
-
 
 
 app.listen(5000, () => {
