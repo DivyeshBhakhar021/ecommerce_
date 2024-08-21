@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get (
     "/get-categorie",
-    validate(categotyValidtion.getCategory),
+    // validate(categotyValidtion.getCategory),
     categoriesController.getCategory
 )
 
