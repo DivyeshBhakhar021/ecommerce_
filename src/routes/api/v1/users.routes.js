@@ -61,14 +61,14 @@ router.get('/google/callback',
       const optionaccrestoken = {
         httpOnly: true,
         secure: true,
-        sameSite: "none",
+        sameSite: "None",
         maxAge: 60 * 60 * 1000,
       };
 
       const optionrefretoken = {
         httpOnly: true,
         secure: true,
-        sameSite: "none",
+        sameSite: "None",
         maxAge: 60 * 60 * 24 * 10 * 1000,
       };
 

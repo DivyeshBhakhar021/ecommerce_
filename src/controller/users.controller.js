@@ -117,14 +117,14 @@ const login = async (req, res) => {
       const optionaccrestoken = {
         httpOnly: true,
         secure: true,
-        sameSite: "none",
+        sameSite: "None",
         maxAge:  60 * 60 * 1000,
       };
   
       const optionrefretoken = {
         httpOnly: true,
         secure: true,
-        sameSite: "none",
+        sameSite: "None",
         maxAge:  60 * 60 * 24 * 10 * 1000,
       };
   
@@ -178,17 +178,27 @@ const generateNewToken = async (req, res) => {
       }
   
       const { accrestoken, refretoken } = await genrentAccRefToken(user._id);
-      const option = {
+   
+      const optionaccrestoken = {
         httpOnly: true,
         secure: true,
-        sameSite: "none",
+        sameSite: "None",
+        maxAge:  60 * 60 * 1000,
       };
-      
+  
+      const optionrefretoken = {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+        maxAge:  60 * 60 * 24 * 10 * 1000,
+      };
+  
+
   
       res
         .status(200)
-        .cookie("accrestoken", accrestoken, option)
-        .cookie("refretoken", refretoken, option)
+        .cookie("accrestoken", accrestoken, optionaccrestoken)
+        .cookie("refretoken", refretoken, optionrefretoken)
         .json({
           success: true,
           message: "New token generated.",
@@ -207,6 +217,9 @@ const generateNewToken = async (req, res) => {
       const user = await Users.findByIdAndUpdate(req.body._id, {
         $unset: { refretoken: 1 },
       }, { new: true });
+
+      console.log("user",user);
+      
   
       if (!user) {
         return res.status(400).json({
@@ -214,11 +227,23 @@ const generateNewToken = async (req, res) => {
           message: "User not logged out.",
         });
       }
+
+      const optionaccrestoken = {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None"
+      };
   
-      res
+      const optionrefretoken = {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None"
+      };
+  
+     return res
         .status(200)
-        .clearCookie("accrestoken")
-        .clearCookie("refretoken")
+        .clearCookie("accrestoken",optionaccrestoken)
+        .clearCookie("refretoken",optionrefretoken)
         .json({
           success: true,
           message: "User logged out successfully.",
