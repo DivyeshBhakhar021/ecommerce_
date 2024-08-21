@@ -32,12 +32,12 @@ const listProduct = async (req, res) => {
 
 const addProduct = async (req, res) => {
   // console.log("adddddd", req.body);
-  // console.log(req.file);
+  console.log(req.file);
   try {
 
 
     const fileres = await fileupload(req.file.path, "Productimg");
-    // console.log(fileres);
+    console.log("fileres",fileres);
 
     const newproduct = await Products.create({
       ...req.body,
