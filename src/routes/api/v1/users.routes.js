@@ -61,12 +61,14 @@ router.get('/google/callback',
       const optionaccrestoken = {
         httpOnly: true,
         secure: true,
+        sameSite: "none",
         maxAge: 60 * 60 * 1000,
       };
 
       const optionrefretoken = {
         httpOnly: true,
         secure: true,
+        sameSite: "none",
         maxAge: 60 * 60 * 24 * 10 * 1000,
       };
 
@@ -75,7 +77,7 @@ router.get('/google/callback',
         .status(200)
         .cookie("accrestoken", accrestoken, optionaccrestoken)
         .cookie("refretoken", refretoken, optionrefretoken)
-        .redirect("http://localhost:3000/")
+        .redirect("https://fruitables-umber.vercel.app/")
     }
   });
 

@@ -2,7 +2,7 @@ var jwt = require('jsonwebtoken');
 const Users = require('../modal/users.modal');
 
 const auth = (roles = []) => async (req, res, next) => {
-// console.log("mmmmmmmmmmm",req);
+console.log("mmmmmmmmmmm",req);
 
     try {
 
@@ -37,7 +37,7 @@ const auth = (roles = []) => async (req, res, next) => {
 
             return res.status(400).json({
                 success: false,
-                message: "Invalid Token" + error.message
+                message: "Invalid Token " + error.message
             });
 
         }

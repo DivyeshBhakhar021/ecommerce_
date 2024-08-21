@@ -29,7 +29,7 @@ const genrentAccRefToken = async (id) => {
     }
   };
   
-  const register = async (req, res) => {
+const register = async (req, res) => {
     
     try {
       // console.log(req.file);
@@ -78,9 +78,9 @@ const genrentAccRefToken = async (id) => {
         message: "Internal server error: " + error.message,
       });
     }
-  };
+};
   
-  const login = async (req, res) => {
+const login = async (req, res) => {
     // console.log(req);
     
     try {
@@ -114,12 +114,14 @@ const genrentAccRefToken = async (id) => {
       const optionaccrestoken = {
         httpOnly: true,
         secure: true,
+        sameSite: "none",
         maxAge:  60 * 60 * 1000,
       };
   
       const optionrefretoken = {
         httpOnly: true,
         secure: true,
+        sameSite: "none",
         maxAge:  60 * 60 * 24 * 10 * 1000,
       };
   
@@ -139,9 +141,9 @@ const genrentAccRefToken = async (id) => {
         message: "Internal server error: " + error.message,
       });
     }
-  };
+};
   
-  const generateNewToken = async (req, res) => {
+const generateNewToken = async (req, res) => {
     try {
       const checkToken = jwt.verify(req.cookies.refretoken, "Qwerty12345");
   
@@ -176,7 +178,9 @@ const genrentAccRefToken = async (id) => {
       const option = {
         httpOnly: true,
         secure: true,
+        sameSite: "none",
       };
+      
   
       res
         .status(200)
@@ -193,7 +197,7 @@ const genrentAccRefToken = async (id) => {
         message: "Internal server error: " + error.message,
       });
     }
-  };
+};
   
   const logout = async (req, res) => {
     try {

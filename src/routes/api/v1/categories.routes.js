@@ -16,7 +16,8 @@ router.get (
 router.get(
     "/list-categories",
     auth(["admin","user"]),
-    // twilioSms,
+    // // twilioSms,
+    // validate(categotyValidtion.getCategory),
     categoriesController.listCategories
 )
 

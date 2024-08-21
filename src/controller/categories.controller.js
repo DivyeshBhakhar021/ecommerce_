@@ -3,7 +3,7 @@ const SubCategories = require("../modal/subcategories.modal");
 
 
 const listCategories = async (req, res) => {
-  // console.log(req.query.page, req.query.pageSize);
+  console.log(req.query.page, req.query.pageSize);
   
   try {
     const categeryis = await Categories.find();
@@ -52,7 +52,7 @@ const listCategories = async (req, res) => {
 const getCategory = async (req, res) => {
   try {
     const categories = await Categories.find({categoryId: req.params.categoryId});
-    console.log("categories",categories);
+    // console.log("categories",categories);
 
 
 
