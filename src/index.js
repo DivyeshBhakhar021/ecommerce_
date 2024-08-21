@@ -42,7 +42,8 @@ connectDB();
 // // connectChat()
 
 app.use(cors({   
-    origin: 'http://localhost:3000',
+    // origin: 'http://localhost:3000',
+    origin: 'https://fruitables-umber.vercel.app/',
     credentials: true
 }))
 app.use(require('express-session')({ secret: 'aaa$12', resave: true, saveUninitialized: true }));
