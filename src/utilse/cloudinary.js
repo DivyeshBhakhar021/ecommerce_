@@ -3,7 +3,7 @@ const cloudinary = require('cloudinary').v2;
 cloudinary.config({ 
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.CLOUD_KEY, 
-    api_secret:  process.env.CLOUDINARYSECRET
+    api_secret:  process.env.CLOUD_INARYSECRET
 });
 
 const  fileupload = async (filepath,foldername) =>{

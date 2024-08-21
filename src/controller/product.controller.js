@@ -31,8 +31,8 @@ const listProduct = async (req, res) => {
 }
 
 const addProduct = async (req, res) => {
-  // console.log("adddddd", req.body);
-  console.log(req.file);
+  console.log("adddddd", req.body);
+  console.log("addProduct",req.file.path);
   try {
 
 
@@ -47,6 +47,8 @@ const addProduct = async (req, res) => {
       }
     });
 
+    console.log("newproduct",newproduct);
+    
     if (!newproduct) {
       res.status(400).json({
         success: false,
