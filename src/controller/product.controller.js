@@ -36,7 +36,7 @@ const addProduct = async (req, res) => {
   try {
 
 
-    const fileres = await fileupload(req.file.path, "Productimg");
+    const fileres = await fileupload(req.file.path, "pro_img");
     console.log("fileres",fileres);
 
     const newproduct = await Products.create({
@@ -74,8 +74,8 @@ const updateProduct = async (req, res) => {
   try {
     if (req.file) {
       console.log("New File upload");
-      const fileres = await fileupload(req.file.path, "Productimg");
-      // console.log(fileres);
+      const fileres = await fileupload(req.file.path, "pro_img");
+      console.log(fileres);
 
       const updatedproduct = await Products.findByIdAndUpdate(
         req.params.product_id,
