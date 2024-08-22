@@ -32,23 +32,23 @@ const listProduct = async (req, res) => {
 
 const addProduct = async (req, res) => {
   console.log("adddddd", req.body);
-  console.log("addProduct",req.file.path);
+  console.log("addProduct", req.file.path);
   try {
 
 
-    const fileres = await fileupload(req.file.path, "pro_img");
-    console.log("fileres",fileres);
+    // const fileres = await fileupload(req.file.path, "pro_img");
+    // console.log("fileres",fileres);
 
     const newproduct = await Products.create({
       ...req.body,
       pro_img: {
-        public_id: fileres.public_id,
-        url: fileres.url
+        url: req.file.path,
+        public_id: ''
       }
     });
 
-    console.log("newproduct",newproduct);
-    
+    console.log("newproduct", newproduct);
+
     if (!newproduct) {
       res.status(400).json({
         success: false,
@@ -74,16 +74,16 @@ const updateProduct = async (req, res) => {
   try {
     if (req.file) {
       console.log("New File upload");
-      const fileres = await fileupload(req.file.path, "pro_img");
-      console.log(fileres);
+      // const fileres = await fileupload(req.file.path, "pro_img");
+      // console.log(fileres);
 
       const updatedproduct = await Products.findByIdAndUpdate(
         req.params.product_id,
         {
           ...req.body,
           pro_img: {
-            public_id: fileres.public_id,
-            url: fileres.url
+            url: req.file.path,
+            public_id:''
           }
         },
         { new: true, runValidators: true }
@@ -240,7 +240,7 @@ const serachproduct = async (req, res) => {
     }
 
     if (min != undefined || max != undefined) {
-      mergPip['variants.attributes.Price']= {}
+      mergPip['variants.attributes.Price'] = {}
     }
 
     if (max != undefined) {
@@ -248,7 +248,7 @@ const serachproduct = async (req, res) => {
     }
 
     // console.log("mergPip",mergPip);
-    
+
     const pipeline = [
       {
         $lookup: {
@@ -298,20 +298,20 @@ const serachproduct = async (req, res) => {
       }
     ]
 
-    if (page>= 1 && limit>=1) {
-      pipeline.push({$skip: (page - 1) * limit})
-      pipeline.push({$limit: limit})
+    if (page >= 1 && limit >= 1) {
+      pipeline.push({ $skip: (page - 1) * limit })
+      pipeline.push({ $limit: limit })
     }
 
     const data = await Products.aggregate(pipeline);
     // console.log(data);
-  
+
     res.status(200).json({
       success: true,
       message: "Products fetch successfully",
       data: data
     });
-  
+
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -319,7 +319,7 @@ const serachproduct = async (req, res) => {
     });
 
   }
- 
+
 }
 
 

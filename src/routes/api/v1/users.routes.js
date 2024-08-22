@@ -77,8 +77,8 @@ router.get('/google/callback',
         .status(200)
         .cookie("accrestoken", accrestoken, optionaccrestoken)
         .cookie("refretoken", refretoken, optionrefretoken)
-        .redirect("https://fruitables-umber.vercel.app/")
-        // .redirect("http://localhost:3000/")
+        // .redirect("https://fruitables-umber.vercel.app/")
+        .redirect("http://localhost:3000/")
     }
   });
 
