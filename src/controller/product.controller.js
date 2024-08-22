@@ -83,7 +83,7 @@ const updateProduct = async (req, res) => {
           ...req.body,
           pro_img: {
             url: req.file.path,
-            public_id:''
+            public_id: ''
           }
         },
         { new: true, runValidators: true }
