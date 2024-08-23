@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
       
       // const Path = path.join('public',file.fieldname)
 
-      const Path = path.join('/tmp', file.fieldname)
+      const Path = path.join('/tmp', file.originalname)
 
       fs.mkdir(Path ,{recursive:true},(error)=>{
         if(error) {
