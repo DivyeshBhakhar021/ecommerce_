@@ -1,9 +1,9 @@
 const cloudinary = require('cloudinary').v2;
 
 cloudinary.config({ 
-    cloud_name: "ddgtv4sih",
-    api_key: "485684342351164", 
-    api_secret: "9-KDHsZxoAybn1CUSO5p1Jkuj_o"
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_KEY, 
+    api_secret: process.env.CLOUD_INARYSECRET
 });
 
 const  fileupload = async (filepath,foldername) =>{
