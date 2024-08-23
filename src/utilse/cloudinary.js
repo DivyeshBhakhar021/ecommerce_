@@ -8,6 +8,8 @@ cloudinary.config({
 
 const  fileupload = async (filepath,foldername) =>{
     try {
+        console.log(process.env.CLOUD_NAME, process.env.CLOUD_KEY, process.env.CLOUD_INARYSECRET);
+        
         console.log("filepath,foldername", filepath,foldername);
         
         const uploadResult = await cloudinary.uploader.upload(filepath, {
