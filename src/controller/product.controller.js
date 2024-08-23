@@ -52,12 +52,12 @@ const addProduct = async (req, res) => {
     if (!newproduct) {
       res.status(400).json({
         success: false,
-        message: "failed to added category"
+        message: "failed to added Product"
       });
     }
     res.status(201).json({
       success: true,
-      message: "Category added successfully",
+      message: "Product added successfully",
       data: newproduct,
     });
 
@@ -100,7 +100,7 @@ const updateProduct = async (req, res) => {
 
       res.status(200).json({
         success: true,
-        message: "Category updated successfully",
+        message: "Product updated successfully",
         data: updatedproduct,
       });
 
@@ -120,7 +120,7 @@ const updateProduct = async (req, res) => {
 
       res.status(200).json({
         success: true,
-        message: "Category updated successfully",
+        message: "Product updated successfully",
         data: updatedproduct,
       });
     }
@@ -146,13 +146,13 @@ const updateProduct = async (req, res) => {
     // if (!updatedproduct) {
     //     res.status(404).json({
     //         success: false,
-    //         message: "Category not found",
+    //         message: "Product not found",
     //     });
     // }
 
     // res.status(200).json({
     //     success: true,
-    //     message: "Category updated successfully",
+    //     message: "Product updated successfully",
     //     data: updatedproduct,
     // });
   } catch (error) {
@@ -170,13 +170,13 @@ const deleteProduct = async (req, res) => {
     if (!deleteproduct) {
       res.status(404).json({
         success: false,
-        message: "Category not found",
+        message: "Product not found",
       });
     }
 
     res.status(200).json({
       success: true,
-      message: "Category deleted successfully",
+      message: "Product deleted successfully",
       data: deleteproduct,
     });
   } catch (error) {
