@@ -8,6 +8,8 @@ cloudinary.config({
 
 const  fileupload = async (filepath,foldername) =>{
     try {
+        console.log("filepath,foldername", filepath,foldername);
+        
         const uploadResult = await cloudinary.uploader.upload(filepath, {
             folder: foldername,
         }).catch((error)=>{console.log(error)});
@@ -17,6 +19,7 @@ const  fileupload = async (filepath,foldername) =>{
         return uploadResult
         
     } catch (error) {
+        console.log("cloudinary error: ", error);
         
     }
 }
