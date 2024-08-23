@@ -3,11 +3,11 @@ const { pick } = require("../helper/pick");
 
 const validate = (schema) => (req, res, next) => {
    console.log(Object.keys(schema));
-   //    console.log(req.body);
+      // console.log(req);
 
    const objs = pick(req, Object.keys(schema))
 
-   // console.log(objs);
+   console.log("objs",objs);
 
    const { error, value } = Joi.compile(schema)
       .prefs({

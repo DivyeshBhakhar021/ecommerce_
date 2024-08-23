@@ -110,6 +110,7 @@ const addCategories = async (req, res) => {
 }
 
 const updateCategories = async (req, res) => {
+  // console.log(req.body);
   try {
     const updatedCategory = await Categories.findByIdAndUpdate(req.params.category_id, req.body,
       { new: true, runValidators: true }
