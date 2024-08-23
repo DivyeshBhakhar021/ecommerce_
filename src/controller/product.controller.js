@@ -74,16 +74,16 @@ const updateProduct = async (req, res) => {
   try {
     if (req.file) {
       console.log("New File upload");
-      // const fileres = await fileupload(req.file.path, "pro_img");
-      // console.log(fileres);
+      const fileres = await fileupload(req.file.path, "pro_img");
+      console.log(fileres);
 
       const updatedproduct = await Products.findByIdAndUpdate(
         req.params.product_id,
         {
           ...req.body,
           pro_img: {
-            url: req.file.path,
-            public_id: ''
+            url: fileres.url,
+            public_id: fileres.public_id
           }
         },
         { new: true, runValidators: true }
