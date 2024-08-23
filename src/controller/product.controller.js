@@ -36,14 +36,14 @@ const addProduct = async (req, res) => {
   try {
 
 
-    // const fileres = await fileupload(req.file.path, "pro_img");
-    // console.log("fileres",fileres);
+    const fileres = await fileupload(req.file.path, "pro_img");
+    console.log("fileres",fileres);
 
     const newproduct = await Products.create({
       ...req.body,
       pro_img: {
-        url: req.file.path,
-        public_id: ''
+        url: fileres.url,
+        public_id: fileres.public_id
       }
     });
 

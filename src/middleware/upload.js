@@ -8,14 +8,18 @@ const storage = multer.diskStorage({
 
       console.log("Ewf",file.fieldname);
       
-      const Path = path.join('public',file.fieldname)
+      // const Path = path.join('public',file.fieldname)
+
+      const Path = path.join('/tmp', file.fieldname)
 
       fs.mkdir(Path ,{recursive:true},(error)=>{
         if(error) {
           cb(error,null)
         }
-        cb(null,Path)
+        
       })
+
+      cb(null,Path)
 
       // cb(null, './public/temp')
     },
