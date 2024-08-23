@@ -32,7 +32,7 @@ const listProduct = async (req, res) => {
 
 const addProduct = async (req, res) => {
   console.log("adddddd", req.body);
-  console.log("addProduct", req.file.path);
+  console.log("addProduct", req.file);
   try {
 
 
