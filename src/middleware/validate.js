@@ -4,7 +4,8 @@ const { pick } = require("../helper/pick");
 const validate = (schema) => (req, res, next) => {
    console.log(Object.keys(schema));
       // console.log(req);
-
+      console.log("dsfgr",req.body);
+      
    const objs = pick(req, Object.keys(schema))
 
    console.log("objs",objs);
@@ -19,7 +20,7 @@ const validate = (schema) => (req, res, next) => {
    if (error) {
       const errMsg = error.details.map((v) => v.message).join(", ")
 
-      return next(new Error("Validation: " + errMsg))
+      next(new Error("Validation: " + errMsg))
    }
 
    console.log("value", value);

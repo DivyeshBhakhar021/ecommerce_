@@ -4,9 +4,11 @@ const SubCategories = require("../modal/subcategories.modal");
 
 const listCategories = async (req, res) => {
   // console.log(req.query.page, req.query.pageSize);
+  console.log("ui",req.body);
+  
   
   try {
-    const categeryis = await Categories.find();
+    
 
     let page = parseInt(req.query.page)
     let pageSize = parseInt(req.query.pageSize)
@@ -17,7 +19,7 @@ const listCategories = async (req, res) => {
         message: "page or pageSize is must be less than more zero",
       });
     }
-
+    const categeryis = await Categories.find();
     if (!categeryis || categeryis.length === 0) {
       res.status(404).json({
         success: false,

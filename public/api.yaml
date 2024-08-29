@@ -145,6 +145,7 @@ paths:
                 type: array
                 items: 
                   type: string
+                  
   /categories/list-categories:
     get:
       parameters:
@@ -161,7 +162,33 @@ paths:
       summary: list-categories login
       description: Optional extended description in CommonMark or HTML.
       tags:
-        - Users
+        - categories
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  type: string
+  /categories/addcategories:
+    post:
+      summary: Add Category.
+      description: Optional extended description in CommonMark or HTML.
+      tags:
+        - categories
+      requestBody:
+        required: true
+        content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
       responses:
         '200':    # status code
           description: A JSON array of user names
@@ -173,28 +200,220 @@ paths:
                   type: string
   /categories/updateCategories/{category_id}:
     put:
-      summary: Categories.
+      summary: update Catrgory.
       description: Optional extended description in CommonMark or HTML.
       tags:
-        - categories  
+        - categories
       parameters:
         - in: path
           name: category_id
           schema:
             type: string
           required: true
-          description: Update category
+          description: Update category.
       requestBody:
         required: true
         content:
-          application/json:
+           application/json:
             schema:
               type: object
               properties:
                 name:
                   type: string
                 description:
-                  type: string     
+                  type: string
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:  
+                  type: string              
+  /categories/deleteCategories/{category_id}:
+    delete:
+      summary: delete Category.
+      description: Optional extended description in CommonMark or HTML.
+      tags:
+        - categories
+      parameters:
+        - in: path
+          name: category_id
+          schema:
+            type: string
+          required: true
+          description: delete category.
+      requestBody:
+        required: true
+        content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                category_id:
+                  type: string
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:  
+                  type: string
+
+  /subcategories/list-subcategories:
+    get:
+      summary: list subcategories.
+      description: Optional extended description in CommonMark or HTML.
+      tags:
+        - subcategories
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  type: string
+  /subcategories/add-subcategories:
+    post:
+      summary: Add subcategories.
+      description: Optional extended description in CommonMark or HTML.
+      tags:
+        - subcategories
+      requestBody:
+        required: true
+        content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                category_id:
+                  type: string
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  type: string
+  /subcategories/update-subcategories/{subcategory_id}:
+    put:
+      summary: update subcategories.
+      description: Optional extended description in CommonMark or HTML.
+      tags:
+        - subcategories
+      parameters:
+        - in: path
+          name: subcategory_id
+          schema:
+            type: string
+          required: true
+          description: Update subcategories.
+      requestBody:
+        required: true
+        content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:  
+                  type: string   
+  /subcategories/delete-subcategories/{subcategory_id}:
+    delete:
+      summary: delete subcategory.
+      description: Optional extended description in CommonMark or HTML.
+      tags:
+        - subcategories
+      parameters:
+        - in: path
+          name: subcategory_id
+          schema:
+            type: string
+          required: true
+          description: delete subcategories.
+      requestBody:
+        required: true
+        content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                subcategory_id:
+                  type: string
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:  
+                  type: string
+
+  /productes/list-Product:
+    get:
+      summary: list products.
+      description: Optional extended description in CommonMark or HTML.
+      tags:
+        - products
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  type: string
+  /productes/addProduct:
+    post:
+      summary: Add product.
+      description: Optional extended description in CommonMark or HTML.
+      tags:
+        - products
+      requestBody:
+        required: true
+        content:
+           multipart/form-data:
+            schema:
+              type: object
+              properties:
+                categoriesid:
+                  type: string
+                subcategory_id:
+                  type: string
+                name:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: string
+                stock:
+                  type: string
+                pro_img:
+                  type: string
+                  format: binary
       responses:
         '200':    # status code
           description: A JSON array of user names
@@ -204,3 +423,200 @@ paths:
                 type: array
                 items: 
                   type: string  
+  /productes/updateProduct/{product_id}:
+    put:
+      summary: update products.
+      description: Optional extended description in CommonMark or HTML.
+      tags:
+        - products
+      parameters:
+        - in: path
+          name: product_id
+          schema:
+            type: string
+          required: true
+          description: Update products.
+      requestBody:
+        required: true
+        content:
+           multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: string
+                stock:
+                  type: string
+                pro_img:
+                  type: string
+                  format: binary
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:  
+                  type: string     
+  /productes/deleteProduct/{product_id}:
+    delete:
+      summary: delete products.
+      description: Optional extended description in CommonMark or HTML.
+      tags:
+        - products
+      parameters:
+        - in: path
+          name: product_id
+          schema:
+            type: string
+          required: true
+          description: delete products.
+      requestBody:
+        required: true
+        content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                product_id:
+                  type: string
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:  
+                  type: string   
+  
+  /variants/list-variants:
+    get:
+      summary: list variants.
+      description: Optional extended description in CommonMark or HTML.
+      tags:
+        - variants
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  type: string
+  /variants/add-variant:
+    post:
+      summary: Add variants.
+      description: Optional extended description in CommonMark or HTML.
+      tags:
+        - variants
+      requestBody:
+        required: true
+        content:
+           multipart/form-data:
+            schema:
+              type: object
+              properties:
+                category_id:
+                  type: string
+                subcategory_id:
+                  type: string
+                product_id:
+                  type: string
+                name:
+                  type: string
+                price:
+                  type: string
+                quantity:
+                  type: string
+                discount:
+                  type: string
+                variant_image:
+                  type: string
+                  format: binary
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  type: string
+  /variants/update-variant/{variant_id}:
+    put:
+      summary: update variants.
+      description: Optional extended description in CommonMark or HTML.
+      tags:
+        - variants
+      parameters:
+        - in: path
+          name: variant_id
+          schema:
+            type: string
+          required: true
+          description: Update variants.
+      requestBody:
+        required: true
+        content:
+           multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price:
+                  type: string
+                quantity:
+                  type: string
+                discount:
+                  type: string
+                variant_image:
+                  type: string
+                  format: binary
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:  
+                  type: string
+  /variants/delete-variant/{variant_id}:
+    delete:
+      summary: delete variants.
+      description: Optional extended description in CommonMark or HTML.
+      tags:
+        - variants
+      parameters:
+        - in: path
+          name: variant_id
+          schema:
+            type: string
+          required: true
+          description: delete variants.
+      requestBody:
+        required: true
+        content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                variant_id:
+                  type: string
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:  
+                  type: string
