@@ -112,6 +112,10 @@ router.get(
   exportpdfmake
 )
 
+router.get(
+  '/order/:user_id',
+  userController.ListUser
+)
 
 
 module.exports = router;

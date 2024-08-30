@@ -11,7 +11,7 @@ router.get(
 )   
 
 router.get(
-    "/list-categories-bycategories/category_id",
+    "/list-categories-bycategories/:category_id",
     subcategoriesController.listcategories
 )  
 
@@ -35,6 +35,34 @@ router.get("/countActiveSubCategories",
 router.get("/getMostProductsSubcategories",
     subcategoriesController.getMostProductsSubcategories
 )
+router.get(
+    '/get-subcategory/:subcategory_id',
+    subcategoriesController.getSubcategoryByCtegory
+)
 
+router.get(
+    '/countProducts',
+    subcategoriesController.getSubcategoryByCtegory
+)
+
+router.get(
+    '/listOfSubcategory',
+    subcategoriesController.listOfSubcategory
+)
+
+router.get(
+    '/subcategorioncategory',
+    subcategoriesController.subcategorioncategory
+)
+
+router.get(
+    '/highestcategori',
+    subcategoriesController.highestcategori
+)
+
+router.get(
+    '/activesubcategory',
+    subcategoriesController.activesubcategory
+)
 
 module.exports = router

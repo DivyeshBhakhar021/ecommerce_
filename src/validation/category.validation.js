@@ -1,8 +1,8 @@
 const Joi = require('joi');
 
 const getCategory = {
-    query: Joi.object().keys({
-        cat_id: Joi.string().required(),
+    params: Joi.object().keys({
+        categoryId: Joi.string().required(),
     }),
 };
 

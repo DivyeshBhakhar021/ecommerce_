@@ -8,8 +8,8 @@ const auth = require("../../../middleware/auth");
 const router = express.Router();
 
 router.get (
-    "/get-categorie",
-    // validate(categotyValidtion.getCategory),
+    "/get-categorie/:categoryId",
+    validate(categotyValidtion.getCategory),
     categoriesController.getCategory
 )
 
@@ -17,7 +17,7 @@ router.get(
     "/list-categories",
     auth(["admin","user"]),
     // // twilioSms,
-    validate(categotyValidtion.getCategory),
+    // validate(categotyValidtion.getCategory),
     categoriesController.listCategories
 )
 
@@ -45,14 +45,13 @@ router.get("/countActiveCategories",
 )
 
 
-
 router.get("/count-active", categoriesController.countActiveCategory);
 
 router.get("/most-products", categoriesController.mostProductCat);
 
 router.get("/average-products", categoriesController.totalProduct);
 
-router.get("/count-subcategories", categoriesController.countSubcategory);
+// router.get("/count-subcategories", categoriesController.countSubcategory);
 
 router.get("/inactive", categoriesController.inActiveCategory)
 

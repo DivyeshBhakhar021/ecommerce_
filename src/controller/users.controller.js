@@ -30,14 +30,12 @@ const genrentAccRefToken = async (id) => {
   };
   
 const register = async (req, res) => {
-    
     try {
-      // console.log(req.file);
       
       const { email, password } = req.body;
       const verifyEmail = await Users.findOne({ email });
-  
-  
+
+      console.log(req);
   
       if (verifyEmail) {
         return res.status(409).json({
@@ -62,6 +60,9 @@ const register = async (req, res) => {
       }
   
       const userdataF = await Users.findById(user._id).select("-password");
+
+      console.log(userdataF);
+      
   
       // sendMail(req.body)
   
@@ -295,4 +296,53 @@ const generateNewToken = async (req, res) => {
    }
   }
 
-module.exports = { logout,register,genrentAccRefToken, login, generateNewToken,chekhlogin }
+  const ListUser = async (req, res) => {
+    const user = await Users.aggregate([
+        {
+            $match: {
+                isActive: true
+            }
+        },
+        {
+            $lookup: {
+                from: "orders",
+                localField: "_id",
+                foreignField: "user_id",
+                as: "userOrders"
+            }
+        },
+        {
+            $unwind: {
+                path: "$userOrders",
+                preserveNullAndEmptyArrays: true
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                name: 1,
+                email: 1,
+                "userOrders.orderId": 1,
+                "userOrders.orderDate": 1,
+                "userOrders.totalAmount": 1
+            }
+        },
+        {
+            $sort: {
+                "userOrders.orderDate": -1
+            }
+        },
+        {
+            $limit: 100
+        }
+    ])
+    res.status(200).json({
+        success: true,
+        message: 'user fetch successfully.',
+        data: user
+    })
+
+}
+
+
+module.exports = {ListUser, logout,register,genrentAccRefToken, login, generateNewToken,chekhlogin }

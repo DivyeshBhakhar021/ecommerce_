@@ -56,7 +56,7 @@ const listcategories = async (req, res) => {
 
 const addSubcategories =async (req, res) => { 
     try {
-        // console.log(req.body);
+        console.log(req.body);
     
         const newsubCategory = await SubCategories.create(req.body);
         
@@ -192,4 +192,191 @@ const getMostProductsSubcategories = async (req, res) => {
 };
 
 
-module.exports = { listcategories, listSubcategories, addSubcategories, updateSubcategories, deleteSubcategories ,countActiveSubCategories,getMostProductsSubcategories}  
+const getSubcategoryByCtegory = async (req, res) => {
+  try {
+      const subcategories = await SubCategories.find({ category_id: req.params.category_id })
+      console.log(subcategories);
+
+      if (!subcategories) {
+          res.status(404).json({
+              success: false,
+              message: 'SubCategory not found.'
+          })
+      }
+      res.status(200).json({
+          success: true,
+          message: 'SubCategory fetch successfully.',
+          data: subcategories
+      })
+  } catch (error) {
+      res.status(500).json({
+          success: false,
+          message: 'Internal Server Error.' + error.message
+      })
+  }
+}
+
+const countProducts = async (req,res) => {
+  console.log("ok");
+
+  const subcategories = await SubCategories.aggregate(
+      [
+          {
+              $lookup: {
+                  from: "products",
+                  localField: "_id",
+                  foreignField: "subcategory_id",
+                  as: "products"
+              }
+          }
+          ,
+          {
+              $unwind: {
+                  path: "$products",
+              }
+          },
+          {
+              $group: {
+                  _id: "$_id",
+                  subcategoryName: { $first: "$name" },
+                  CountProducts: {
+                      $sum: 1
+                  }
+              }
+          }
+      ]
+  )
+  res.status(200).json({
+      success: true,
+      message: "Subcategories get  succesfully",
+      data: subcategories
+  })
+}
+
+const listOfSubcategory = async (req, res) => {
+  console.log("ok");
+
+  const listInacive = await SubCategories.aggregate(
+      [
+        {
+          $match: {
+            is_active: false
+          }
+        },
+        {
+          $project: {
+            _id: 1,
+            name: 1,
+            is_active: 1
+          }
+        }
+      ]
+  )
+  res.status(200).json({
+      success: true,
+      message: "Subcategories get  succesfully",
+      data: listInacive
+  })
+
+  console.log(listInacive);
+}
+
+const subcategorioncategory = async (req, res) => {
+  const subcategories = await SubCategories.aggregate([
+      {
+          $lookup: {
+              from: "categories",
+              localField: "_id",
+              foreignField: "_id",
+              as: "category"
+          }
+      },
+      {
+          $project: {
+              "name": 1,
+              "category": 1
+          }
+      }
+  ])
+
+  res.status(200).json({
+      success: true,
+      message: "Subcategories get  succesfully",
+      data: subcategories
+  })
+
+  console.log(subcategories);
+
+}
+
+const highestcategori = async (req, res) => {
+  const subcategories = await SubCategories.aggregate([
+      {
+          $lookup: {
+              from: "products",
+              localField: "_id",
+              foreignField: "subcategory_id",
+              as: "product"
+          }
+      },
+      {
+          $match: {
+              "product": { $ne: [] }
+          }
+      },
+      {
+          $unwind: {
+              path: "$product"
+          }
+      },
+      {
+          $group: {
+              _id: "$_id",
+              "subcategory_name": { $first: "$name" },
+              "CountProduct": {
+                  $sum: 1
+              },
+              "product_name": { $push: "$product.name" }
+          }
+      },
+      {
+          $sort: {
+              "CountProduct": -1
+          }
+      },
+      {
+          $limit: 5
+      }
+
+  ])
+
+  res.status(200).json({
+      success: true,
+      message: "Subcategories get  succesfully",
+      data: subcategories
+  })
+
+  console.log(subcategories);
+}
+
+const activesubcategory = async (req, res) => {
+
+  const activesubcategori = await SubCategories.aggregate([
+      {
+          $match: {
+            is_active: true
+          }
+      },
+      {
+          $count: 'isActivenumofsubcategory'
+      }
+
+  ]);
+  res.status(200).json({
+      success: true,
+      message: "Subcategories get  succesfully",
+      data: activesubcategori
+  })
+}
+
+module.exports = {activesubcategory,highestcategori,subcategorioncategory,listOfSubcategory,countProducts, getSubcategoryByCtegory,listcategories, listSubcategories, addSubcategories, updateSubcategories, deleteSubcategories ,countActiveSubCategories,getMostProductsSubcategories}  

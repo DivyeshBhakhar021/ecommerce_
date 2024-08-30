@@ -322,5 +322,284 @@ const serachproduct = async (req, res) => {
 
 }
 
+const topRate = async (req, res) => {
 
-module.exports = { listProduct, addProduct, updateProduct, deleteProduct, getProductscategories, serachproduct }
+  const products = await Products.aggregate([
+
+      {
+          $lookup: {
+              from: "reviews",
+              localField: "_id",
+              foreignField: "product_id",
+              as: "review"
+          }
+      },
+      {
+          $unwind: {
+              path: "$review"
+          }
+      },
+      {
+          $group: {
+              _id: "$_id",
+              "product_name": { $first: "$name" },
+              "Totalrating": {
+                  $sum: "$review.rating"
+              }
+          }
+      },
+      {
+          $sort: {
+              "Totalrating": -1
+          }
+      },
+      {
+          $limit: 1
+      }
+
+  ])
+
+  res.status(200).json({
+      success: true,
+      message: "Products get  succesfully",
+      data: products
+  })
+
+  console.log(products);
+
+}
+
+const newArrivals = async (req, res) => {
+
+  const products = await Products.aggregate([
+      {
+          $sort: {
+              "createdAt": -1
+          }
+      },
+      {
+          $limit: 3
+      }
+  ])
+
+  res.status(200).json({
+      success: true,
+      message: "Products get  succesfully",
+      data: products
+  })
+
+  console.log(products);
+
+}
+
+const getProductBySubcategory = async (req, res) => {
+  try {
+      const product = await Products.find({ product_id: req.params.product_id })
+      console.log(product);
+
+      if (!product) {
+          res.status(404).json({
+              success: false,
+              message: 'product not found.'
+          })
+      }
+      res.status(200).json({
+          success: true,
+          message: 'product fetch successfully.',
+          data: product
+      })
+  } catch (error) {
+      res.status(500).json({
+          success: false,
+          message: 'Internal Server Error.' + error.message
+      })
+  }
+}
+
+const Countcategory = async (req, res) => {
+  console.log("ok");
+
+  const Countcategory = await Products.aggregate(
+    [
+      {
+        $lookup: {
+          from: "categories",
+          localField: "id",
+          foreignField: "pro",
+          as: "category"
+        }
+      },
+      {
+        $unwind: {
+          path: "$category"
+        }
+      },
+      {
+        $group: {
+          _id: "$categoriesid",
+          Category_name: { $first: "$category.name" },
+          Product_name: { $first: "$name" },
+          countproduct: {
+            $sum: 1
+          }
+        }
+      }
+    ]
+  )
+  res.status(200).json({
+      success: true,
+      message: 'product fetch successfully.',
+      data: Countcategory
+  })
+  console.log(Countcategory);
+}
+
+const outofstock = async (req, res) => {
+  console.log("ok");
+
+  const outofstock = await Products.aggregate([
+      {
+          "$match": {
+              "isActive": true
+          }
+      },
+      {
+          "$lookup": {
+              "from": "variants",
+              "localField": "_id",
+              "foreignField": "product_id",
+              "as": "variants"
+          }
+      },
+      {
+          "$match": {
+              "variants": { "$size": 0 }
+          }
+      },
+      {
+          "$project": {
+              "_id": 1,
+              "name": 1,
+              "description": 1,
+              "price": 1,
+              "stock": 1
+          }
+      }
+  ]
+  )
+  res.status(200).json({
+      success: true,
+      message: 'product fetch successfully.',
+      data: outofstock
+  })
+  console.log(outofstock);
+}
+
+const variantsDatils = async (req, res) => {
+  const variantsDatils = await Products.aggregate(
+      [
+          {
+              "$lookup": {
+                  "from": "variants",
+                  "localField": "_id",
+                  "foreignField": "product_id",
+                  "as": "variants"
+              }
+          },
+          {
+              "$unwind": {
+                  "path": "$variants",
+              }
+          },
+          {
+              "$project": {
+                  "_id": 1,
+                  "name": 1,
+                  "description": 1,
+                  "price": 1,
+                  "stock": 1,
+                  "variants": {
+                      "_id": "$variants._id",
+                      "variant_name": "$variants.name",
+                      "variant_price": "$variants.price",
+                      "variant_stock": "$variants.stock",
+                      "variant_details": "$variants.details"
+                  }
+              }
+          }
+      ]
+
+  )
+  res.status(200).json({
+      success: true,
+      message: "Products get  succesfully",
+      data: variantsDatils
+    })
+}
+
+const productByCategory = async (req, res) => {
+  console.log("ok");
+  const productByCategory = await Products.aggregate(
+      [
+          {
+              $lookup: {
+                  from: "categories",
+                  localField: "category_id",
+                  foreignField: "_id",
+                  as: "categories"
+              }
+          },
+          {
+              $group: {
+                  _id: "$_id",
+                  category: {
+                      $first: "$name"
+                  },
+                  ProdcutCount: {
+                      $sum: 1
+                  },
+                  product: {
+                      $push: "$categories.name"
+                  }
+              }
+          },
+          
+      ]
+  )
+  res.status(200).json({
+      success: true,
+      message: 'product fetch successfully.',
+      data: productByCategory
+  })
+  console.log(productByCategory);
+}
+
+const getProduct = async (req, res) => {
+
+  try {
+      const product = await Products.findById(req.params.product_id)
+      console.log(product);
+
+      if (!product) {
+          res.status(404).json({
+              success: false,
+              message: 'product not found.'
+          })
+      }
+      res.status(200).json({
+          success: true,
+          message: 'product fetch successfully.',
+          data: product
+      })
+
+  } catch (error) {
+      res.status(500).json({
+          success: false,
+          message: 'Internal Server Error.' + error.message
+      })
+    }
+}
+
+
+
+module.exports = {getProduct,productByCategory,variantsDatils,outofstock,topRate,Countcategory,getProductBySubcategory,newArrivals, listProduct, addProduct, updateProduct, deleteProduct, getProductscategories, serachproduct }
