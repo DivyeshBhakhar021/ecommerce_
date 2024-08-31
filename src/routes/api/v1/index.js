@@ -9,7 +9,7 @@ const customers = require("./customers.routes");
 const orders = require("./orders.routes");
 const salespeople = require("./salespeople.routes");
 const users = require("./users.routes");
-
+const ratinges = require('./rating.routes')
 
 router.use("/categories", categories)
 router.use("/subcategories", subcategories)
@@ -19,5 +19,6 @@ router.use("/customers", customers)
 router.use("/orders",orders)
 router.use("/salespeople",salespeople)
 router.use("/users",users)
+router.use("/ratinges",ratinges)
 
 module.exports = router

@@ -25,6 +25,7 @@ router.put(
 router.delete("/deleteProduct/:product_id",
     productCproductontroller.deleteProduct
 )
+
 router.get("/getProductscategories",
     productCproductontroller.getProductscategories
 )
@@ -57,9 +58,9 @@ router.get(
 router.get(
     '/variant-details/:product_id',
     productCproductontroller.variantsDatils
-  )
+)
 
-  router.get(
+router.get(
     '/category/:category_id',
     productCproductontroller.productByCategory
 )

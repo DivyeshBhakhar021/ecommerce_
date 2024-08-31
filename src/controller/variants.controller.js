@@ -413,8 +413,178 @@ const Variantdetails = async (req, res) => {
     console.log(variants);
   }
 
+const productswithhighesprices = async (req, res) => {
+    const variants = await Variants.aggregate([
+      {
+        $sort: {
+          price: -1
+        }
+      },
+      {
+        $group: {
+          _id: "$product_id",
+          highestPrice: { $max: "$price" },
+          variants: {
+            $push: {
+              variant_id: "$_id",
+              price: "$price",
+              stock: "$stock",
+              discount: "$discount",
+              attributes: "$attributes"
+            }
+          }
+        }
+      },
+      {
+        $lookup: {
+          from: "products",
+          localField: "_id",
+          foreignField: "_id",
+          as: "productDetails"
+        }
+      },
+      {
+        $unwind: "$productDetails"
+      },
+      {
+        $project: {
+          _id: 0,
+          productId: "$_id",
+          highestPrice: 1,
+          variants: 1,
+          "productDetails.name": 1,
+          "productDetails.description": 1
+        }
+      },
+      {
+        $sort: {
+          highestPrice: -1
+        }
+      }
+    ])
+  
+    res.status(200).json({
+      success: true,
+      message: "variant get  succesfully",
+      data: variants
+    })
+  
+    console.log(variants);
+  }
+
+  const morethanonevariant = async (req, res) => {
+    const variants = await Variants.aggregate([
+        {
+            $group: {
+                _id: "$product_id",
+                variantCount: { $sum: 1 },
+                variants: {
+                    $push: {
+                        variant_id: "$_id",
+                        price: "$price",
+                        stock: "$stock",
+                        discount: "$discount",
+                        attributes: "$attributes"
+                    }
+                }
+            }
+        },
+        {
+            $match: {
+                variantCount: { $gt: 1 }
+            }
+        },
+        {
+            $lookup: {
+                from: "products",
+                localField: "_id",
+                foreignField: "_id",
+                as: "productDetails"
+            }
+        },
+        {
+            $unwind: "$productDetails"
+        },
+        {
+            $project: {
+                _id: 0,
+                productId: "$_id",
+                variantCount: 1,
+                variants: 1,
+                "productDetails.name": 1,
+                "productDetails.description": 1
+            }
+        }
+    ])
+
+    res.status(200).json({
+        success: true,
+        message: "variant get  succesfully",
+        data: variants
+    })
+
+    console.log(variants);
+}
+
+const productslowstock = async (req, res) => {
+    const variants = await Variants.aggregate([
+        {
+            $match: {
+                stock: { $lt: 20 }
+            }
+        },
+        {
+            $group: {
+                _id: "$product_id",
+                totalStock: { $sum: "$stock" },
+                variants: {
+                    $push: {
+                        variant_id: "$_id",
+                        stock: "$stock",
+                        price: "$price",
+                        discount: "$discount",
+                        attributes: "$attributes"
+                    }
+                }
+            }
+        },
+        {
+            $lookup: {
+                from: "products",
+                localField: "_id",
+                foreignField: "_id",
+                as: "productDetails"
+            }
+        },
+        {
+            $unwind: "$productDetails"
+        },
+
+        {
+            $project: {
+                _id: 0,
+                productId: "$_id",
+                totalStock: 1,
+                variants: 1,
+                "productDetails.name": 1,
+                "productDetails.description": 1
+            }
+        }
+    ])
+    res.status(200).json({
+        success: true,
+        message: "variant get  succesfully",
+        data: variants
+    })
+
+    console.log(variants);
+}
+
 
 module.exports = {
+    productslowstock,
+    morethanonevariant,
+    productswithhighesprices,
     countstock,
     activevarint,
     countptoduct,

@@ -575,7 +575,6 @@ const productByCategory = async (req, res) => {
 }
 
 const getProduct = async (req, res) => {
-
   try {
       const product = await Products.findById(req.params.product_id)
       console.log(product);

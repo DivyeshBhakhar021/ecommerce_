@@ -857,7 +857,7 @@ paths:
             application/json:
               schema:
                 type: object
-  /products/out-of-stock:
+  /productes/out-of-stock:
     get:
       summary: recently added products.
       description: Retrieves the number of categories that are currently active in the system.
@@ -870,7 +870,7 @@ paths:
             application/json:
               schema:
                 type: object
-  /products/newArrivals:
+  /productes/newArrivals:
     get:
       summary: recently added products.
       description: Retrieves the number of categories that are currently active in the system.
@@ -883,7 +883,7 @@ paths:
             application/json:
               schema:
                 type: object
-  /products/variant-details/{product_id}:
+  /productes/variant-details/{product_id}:
     get:
       parameters:
         - in: path
@@ -905,7 +905,7 @@ paths:
                 type: array
                 items: 
                   type: string
-  /products/category/{category_id}:
+  /productes/category/{category_id}:
     get:
       summary: get products.
       description: Optional extended description in CommonMark or HTML.
@@ -926,8 +926,7 @@ paths:
               schema: 
                 type: array
                 items: 
-                  type: string
-  /products/get-product/{product_id}:
+                  type: string/products/get-product/{product_id}:
     get:
       parameters:
         - in: path
@@ -1127,6 +1126,28 @@ paths:
                 type: array
                 items:  
                   type: string
+  /variants/list-variants/{variant_id}:
+    get:
+      parameters:
+        - in: path
+          name: variant_id
+          schema:
+            type: string
+          required: true
+          description: get variants.
+      summary: get products.
+      description: Optional extended description in CommonMark or HTML.
+      tags:
+        - variants
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  type: string
   /variants/count-stock/{variant_id}:
     get:
       parameters:
@@ -1267,7 +1288,57 @@ paths:
                 type: array
                 items:  
                   type: string
-  /variants/delete-variant/{variant_id}:
+  /variants/product-highest-Price:
+    get:
+      summary: total count of active variants.
+      description: Retrieves the number of categories that are currently active in the system.
+      tags:
+        - variants
+      responses:
+        '200':
+          description: The count of active variants.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: The number of product highest Price
+  /variants/multiple-variants:
+    get:
+      summary: total count of active variants.
+      description: Retrieves the number of categories that are currently active in the system.
+      tags:
+        - variants
+      responses:
+        '200':
+          description: products with more than one variant.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: products with more than one variant.                                               
+  /variants/low-quantity:
+    get:
+      summary: total count of active variants.
+      description: Retrieves the number of categories that are currently active in the system.
+      tags:
+        - variants
+      responses:
+        '200':
+          description: The count of active variants.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: The number of active variants.
 
   /variants/list-salespeople:
     get:
@@ -1315,33 +1386,3 @@ paths:
                 items: 
                   type: string
   
-    delete:
-      summary: delete variants.
-      description: Optional extended description in CommonMark or HTML.
-      tags:
-        - variants
-      parameters:
-        - in: path
-          name: variant_id
-          schema:
-            type: string
-          required: true
-          description: delete variants.
-      requestBody:
-        required: true
-        content:
-           application/json:
-            schema:
-              type: object
-              properties:
-                variant_id:
-                  type: string
-      responses:
-        '200':    # status code
-          description: A JSON array of user names
-          content:
-            application/json:
-              schema: 
-                type: array
-                items:  
-                  type: string

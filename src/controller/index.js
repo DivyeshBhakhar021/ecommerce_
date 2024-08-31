@@ -5,4 +5,5 @@ module.exports.variantsController= require("./variants.controller")
 module.exports.customersController= require("./customers.controller")
 module.exports.customersorders= require("./orders.controller")
 module.exports.salespeoplectontroller= require("./salespeople.controller")
-module.exports.usersdata= require("./users.controller")
+module.exports.usersdata= require("./users.controller");
+module.exports.Ratingesdata = require("./rating.controller")
